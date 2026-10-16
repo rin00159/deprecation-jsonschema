@@ -1,0 +1,383 @@
+{
+	"$schema": "./schema/deprecation.json-examples.schema.json",
+	"jsons": [
+		{
+			"group": "basic",
+			"label": "正常: 全プロパティを指定した非推奨情報",
+			"valid": true,
+			"instance": {
+				"reason": "新しい認証APIに統合されたため",
+				"severity": "warning",
+				"breaking": {
+					"isBreaking": true,
+					"impact": "戻り値が Promise に変更された"
+				},
+				"replacement": "src/auth/v2/",
+				"migrationGuide": "docs/migration-v2.md",
+				"migrationGuideUrl": "https://example.com/docs/migration-v2"
+			}
+		},
+		{
+			"group": "basic",
+			"label": "正常: 理由と代替のみの最小構成",
+			"valid": true,
+			"instance": {
+				"reason": "役割が重複したため",
+				"replacement": "utils/format.ts"
+			}
+		},
+		{
+			"group": "property:root",
+			"label": "正常: 空オブジェクト(全プロパティ任意)",
+			"valid": true,
+			"instance": {}
+		},
+		{
+			"group": "property:root",
+			"label": "未定義プロパティは不可(unevaluatedProperties)",
+			"valid": false,
+			"instance": {
+				"reason": "理由",
+				"unknown": "x"
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "",
+					"keyword": "unevaluatedProperties"
+				}
+			]
+		},
+		{
+			"group": "property:root",
+			"label": "オブジェクト以外は不可",
+			"valid": false,
+			"instance": [
+				"reason"
+			],
+			"expectedErrors": [
+				{
+					"instanceLocation": "",
+					"keyword": "type"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/reason",
+			"label": "正常: reason は文字列",
+			"valid": true,
+			"instance": {
+				"reason": "廃止予定"
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/reason",
+			"label": "reason は文字列でなければならない",
+			"valid": false,
+			"instance": {
+				"reason": 123
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/reason",
+					"keyword": "type"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/severity",
+			"label": "正常: severity 'info'",
+			"valid": true,
+			"instance": {
+				"severity": "info"
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/severity",
+			"label": "正常: severity 'warning'",
+			"valid": true,
+			"instance": {
+				"severity": "warning"
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/severity",
+			"label": "正常: severity 'error'",
+			"valid": true,
+			"instance": {
+				"severity": "error"
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/severity",
+			"label": "severity は enum 外の値は不可",
+			"valid": false,
+			"instance": {
+				"severity": "critical"
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/severity",
+					"keyword": "enum"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/severity",
+			"label": "severity は大文字小文字を区別する",
+			"valid": false,
+			"instance": {
+				"severity": "Warning"
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/severity",
+					"keyword": "enum"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/breaking",
+			"pointer": "/breaking",
+			"label": "正常: breaking は真偽値",
+			"valid": true,
+			"instance": {
+				"breaking": true
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/breaking",
+			"pointer": "/breaking",
+			"label": "正常: breaking を false で指定",
+			"valid": true,
+			"instance": {
+				"breaking": false
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/breaking",
+			"pointer": "/breaking",
+			"label": "正常: breaking はオブジェクト(isBreaking のみ)",
+			"valid": true,
+			"instance": {
+				"breaking": {
+					"isBreaking": false
+				}
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/breaking",
+			"pointer": "/breaking",
+			"label": "正常: breaking はオブジェクト(isBreaking + impact)",
+			"valid": true,
+			"instance": {
+				"breaking": {
+					"isBreaking": true,
+					"impact": "引数の順序が変わった"
+				}
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/breaking",
+			"pointer": "/breaking",
+			"label": "breaking オブジェクトは isBreaking 必須",
+			"valid": false,
+			"instance": {
+				"breaking": {
+					"impact": "影響あり"
+				}
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/breaking",
+					"keyword": "oneOf"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/breaking",
+			"pointer": "/breaking",
+			"label": "breaking オブジェクトは未定義プロパティ不可",
+			"valid": false,
+			"instance": {
+				"breaking": {
+					"isBreaking": true,
+					"note": "x"
+				}
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/breaking",
+					"keyword": "oneOf"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/breaking",
+			"pointer": "/breaking",
+			"label": "breaking は文字列は不可",
+			"valid": false,
+			"instance": {
+				"breaking": "yes"
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/breaking",
+					"keyword": "oneOf"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/replacement",
+			"label": "正常: replacement は文字列(相対パス)",
+			"valid": true,
+			"instance": {
+				"replacement": "../new/module.ts"
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/replacement",
+			"label": "replacement は文字列でなければならない",
+			"valid": false,
+			"instance": {
+				"replacement": [
+					"a",
+					"b"
+				]
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/replacement",
+					"keyword": "type"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/deprecatedAt",
+			"pointer": "/deprecatedAt",
+			"label": "deprecatedAt がバージョン文字列: format 未評価では string 枝と pattern 枝の両方に一致して不可、format 評価時は pattern 枝のみ一致して可",
+			"valid": false,
+			"valid@when_format-assertion": true,
+			"instance": {
+				"deprecatedAt": "v1.4.0"
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/deprecatedAt",
+			"pointer": "/deprecatedAt",
+			"label": "deprecatedAt は文字列でなければならない",
+			"valid": false,
+			"instance": {
+				"deprecatedAt": 20260101
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/deprecatedAt",
+					"keyword": "oneOf"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/removalAt",
+			"pointer": "/removalAt",
+			"label": "removalAt がバージョン文字列: format 未評価では string 枝と pattern 枝の両方に一致して不可、format 評価時は pattern 枝のみ一致して可",
+			"valid": false,
+			"valid@when_format-assertion": true,
+			"instance": {
+				"removalAt": "v1.4.0"
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/removalAt",
+			"pointer": "/removalAt",
+			"label": "removalAt は文字列でなければならない",
+			"valid": false,
+			"instance": {
+				"removalAt": 20260101
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/removalAt",
+					"keyword": "oneOf"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/migrationGuide",
+			"label": "正常: migrationGuide は文字列",
+			"valid": true,
+			"instance": {
+				"migrationGuide": "README の「移行」節を参照"
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/migrationGuide",
+			"label": "migrationGuide は文字列でなければならない",
+			"valid": false,
+			"instance": {
+				"migrationGuide": true
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/migrationGuide",
+					"keyword": "type"
+				}
+			]
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/migrationGuideUrl",
+			"label": "正常: migrationGuideUrl は URI",
+			"valid": true,
+			"instance": {
+				"migrationGuideUrl": "https://example.com/migrate"
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/migrationGuideUrl",
+			"label": "migrationGuideUrl が URI でない: format 未評価では可、format 評価時は不可",
+			"valid": true,
+			"valid@when_format-assertion": false,
+			"instance": {
+				"migrationGuideUrl": "not a uri"
+			}
+		},
+		{
+			"group": "property",
+			"groupPointer": "/properties/migrationGuideUrl",
+			"label": "migrationGuideUrl は文字列でなければならない",
+			"valid": false,
+			"instance": {
+				"migrationGuideUrl": 42
+			},
+			"expectedErrors": [
+				{
+					"instanceLocation": "/migrationGuideUrl",
+					"keyword": "type"
+				}
+			]
+		}
+	]
+}
