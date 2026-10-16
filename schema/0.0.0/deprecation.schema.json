@@ -1,0 +1,95 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"$id": "https://raw.githubusercontent.com/rin00159/deprecation-jsonschema/refs/heads/main/schema/0.0.0/deprecation.schema.json",
+	"title": "DeprecationInfo",
+	"description": "非推奨化の詳細メタデータ（理由、代替パス、移行期日、重要度、破壊的変更、ガイドへの参照情報）",
+	"type": "object",
+	"unevaluatedProperties": false,
+	"properties": {
+		"reason": {
+			"type": "string",
+			"title": "非推奨理由",
+			"description": "非推奨となった背景や理由"
+		},
+		"severity": {
+			"type": "string",
+			"title": "重要度・深刻度",
+			"description": "非推奨の緊急度やツールの報告レベル (info: 案内, warning: 非推奨警告, error: 使用禁止・即時対応必須)",
+			"enum": ["info", "warning", "error"],
+			"default": "warning"
+		},
+		"breaking": {
+			"title": "破壊的変更情報",
+			"description": "移行に伴う下位互換性の喪失有無、またはその詳細",
+			"oneOf": [
+				{
+					"type": "boolean",
+					"title": "破壊的変更フラグ",
+					"description": "手動コード修正やロジック変更が必要な破壊的変更を含むかどうか"
+				},
+				{
+					"type": "object",
+					"title": "破壊的変更詳細",
+					"additionalProperties": false,
+					"properties": {
+						"isBreaking": {
+							"type": "boolean",
+							"title": "破壊的変更フラグ",
+							"description": "破壊的変更を含むかどうか"
+						},
+						"impact": {
+							"type": "string",
+							"title": "影響範囲・詳細",
+							"description": "互換性が失われる具体的な変更内容（シグネチャ変更、副作用の差異など）"
+						}
+					},
+					"required": ["isBreaking"]
+				}
+			]
+		},
+		"replacement": {
+			"type": "string",
+			"title": "代替ノード",
+			"description": "移行先として推奨されるファイルやディレクトリの名称、または相対パス"
+		},
+		"deprecatedAt": {
+			"title": "非推奨指定日時・バージョン",
+			"description": "非推奨化が告知・適用された日時(ISO 8601等)またはバージョン文字列",
+			"oneOf": [
+				{
+					"type": "string",
+					"format": "date-time"
+				},
+				{
+					"type": "string",
+					"pattern": "^v?[0-9]+(\\.[0-9]+)*"
+				}
+			]
+		},
+		"removalAt": {
+			"title": "削除・廃止予定日時・バージョン",
+			"description": "完全に削除・廃止される予定の日時(ISO 8601等)またはバージョン文字列",
+			"oneOf": [
+				{
+					"type": "string",
+					"format": "date-time"
+				},
+				{
+					"type": "string",
+					"pattern": "^v?[0-9]+(\\.[0-9]+)*"
+				}
+			]
+		},
+		"migrationGuide": {
+			"type": "string",
+			"title": "移行ガイド",
+			"description": "移行手順や変更詳細を記載したドキュメント等"
+		},
+		"migrationGuideUrl": {
+			"type": "string",
+			"format": "uri",
+			"title": "移行ガイドURL",
+			"description": "移行手順や変更詳細を記載したドキュメント等のURI"
+		}
+	}
+}
