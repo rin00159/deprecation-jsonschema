@@ -51,9 +51,7 @@
 			"group": "property:root",
 			"label": "オブジェクト以外は不可",
 			"valid": false,
-			"instance": [
-				"reason"
-			],
+			"instance": ["reason"],
 			"expectedErrors": [
 				{
 					"instanceLocation": "",
@@ -255,10 +253,7 @@
 			"label": "replacement は文字列でなければならない",
 			"valid": false,
 			"instance": {
-				"replacement": [
-					"a",
-					"b"
-				]
+				"replacement": ["a", "b"]
 			},
 			"expectedErrors": [
 				{
@@ -273,7 +268,7 @@
 			"pointer": "/deprecatedAt",
 			"label": "deprecatedAt がバージョン文字列: format 未評価では string 枝と pattern 枝の両方に一致して不可、format 評価時は pattern 枝のみ一致して可",
 			"valid": false,
-			"valid@when_format-assertion": true,
+			"valid@when_formatAssertion": true,
 			"instance": {
 				"deprecatedAt": "v1.4.0"
 			}
@@ -300,7 +295,7 @@
 			"pointer": "/removalAt",
 			"label": "removalAt がバージョン文字列: format 未評価では string 枝と pattern 枝の両方に一致して不可、format 評価時は pattern 枝のみ一致して可",
 			"valid": false,
-			"valid@when_format-assertion": true,
+			"valid@when_formatAssertion": true,
 			"instance": {
 				"removalAt": "v1.4.0"
 			}
@@ -359,7 +354,7 @@
 			"groupPointer": "/properties/migrationGuideUrl",
 			"label": "migrationGuideUrl が URI でない: format 未評価では可、format 評価時は不可",
 			"valid": true,
-			"valid@when_format-assertion": false,
+			"valid@when_formatAssertion": false,
 			"instance": {
 				"migrationGuideUrl": "not a uri"
 			}
